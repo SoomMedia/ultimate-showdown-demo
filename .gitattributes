@@ -1,2 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+build/*.exe filter=lfs diff=lfs merge=lfs -text
+build/*.dll filter=lfs diff=lfs merge=lfs -text
+build/*.zip filter=lfs diff=lfs merge=lfs -text
+build/**/*.png filter=lfs diff=lfs merge=lfs -text
+build/**/*.ogg filter=lfs diff=lfs merge=lfs -text
+build/**/*.wav filter=lfs diff=lfs merge=lfs -text
