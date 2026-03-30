@@ -18,8 +18,13 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout
+      - name: Checkout (with LFS)
         uses: actions/checkout@v4
+        with:
+          lfs: true           # ← pulls actual LFS files, not pointer stubs
+
+      - name: Pull LFS objects
+        run: git lfs pull     # ← ensures all LFS files are fully downloaded
 
       - name: Zip build folder
         run: |
