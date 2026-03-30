@@ -1,0 +1,36 @@
+# .github/workflows/release.yml
+# ─────────────────────────────────────────────────────────────────
+#  Automatically creates a GitHub Release and uploads your build
+#  zip whenever you push a version tag like: git tag v1.2.0 && git push --tags
+# ─────────────────────────────────────────────────────────────────
+
+name: Publish Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Zip build folder
+        run: |
+          cd build                        # ← your built game folder
+          zip -r ../ultimate-showdown-${{ github.ref_name }}.zip .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Ultimate Showdown ${{ github.ref_name }}"
+          body: "Automated release for ${{ github.ref_name }}"
+          files: ultimate-showdown-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
